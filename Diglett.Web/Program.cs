@@ -8,11 +8,14 @@ namespace Diglett.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var services = builder.Services;
 
-            builder.Services.AddControllersWithViews();
+            services.AddControllersWithViews();
 
-            builder.Services.AddDbContext<DiglettDbContext>(options =>
+            services.AddDbContext<DiglettDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+
+            services.AddScoped<TimestampedInterceptor>();
 
             var app = builder.Build();
 
