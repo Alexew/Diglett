@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diglett.Web", "Diglett.Web\Diglett.Web.csproj", "{7090A84D-401C-4AFB-ADC5-2A48942377E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diglett.Core", "Diglett.Core\Diglett.Core.csproj", "{18EA8322-335F-43DB-BE84-55E9F6602520}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{7090A84D-401C-4AFB-ADC5-2A48942377E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7090A84D-401C-4AFB-ADC5-2A48942377E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7090A84D-401C-4AFB-ADC5-2A48942377E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18EA8322-335F-43DB-BE84-55E9F6602520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18EA8322-335F-43DB-BE84-55E9F6602520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18EA8322-335F-43DB-BE84-55E9F6602520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18EA8322-335F-43DB-BE84-55E9F6602520}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Diglett.Core\Diglett.Core.csproj" />
+  </ItemGroup>
+
 </Project>
