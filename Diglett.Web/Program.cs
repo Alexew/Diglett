@@ -1,4 +1,6 @@
 using Diglett.Core.Data;
+using Diglett.Core.Domain.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Diglett.Web
@@ -14,6 +16,10 @@ namespace Diglett.Web
 
             services.AddDbContext<DiglettDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+
+            services.AddIdentity<User, IdentityRole<int>>()
+                .AddEntityFrameworkStores<DiglettDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddScoped<TimestampedInterceptor>();
 

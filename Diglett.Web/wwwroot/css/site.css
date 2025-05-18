@@ -76,3 +76,15 @@ button.accept-policy {
     white-space: nowrap;
     line-height: 60px;
 }
+
+.form-label:not(.form-check-label) {
+    font-weight: 600;
+}
+
+label.required:after {
+    content: ' *';
+}
+
+.page-title {
+    margin-bottom: 1.5rem;
+}
