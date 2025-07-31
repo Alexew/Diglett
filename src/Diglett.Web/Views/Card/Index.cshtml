@@ -1,0 +1,19 @@
+﻿@using Diglett.Web.Models.Catalog
+
+@model IEnumerable<CardModel>
+
+@{
+    ViewData["Title"] = "Cards";
+}
+
+<div class="d-flex flex-wrap">
+    @foreach (var card in Model)
+    {
+        <div class="p-2">
+            <img src="@card.ImageUrl" alt="@card.Name" width="300" />
+            <div>
+                @card.Name
+            </div>
+        </div>
+    }
+</div>
