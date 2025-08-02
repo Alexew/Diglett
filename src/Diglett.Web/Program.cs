@@ -1,3 +1,4 @@
+using Diglett.Core.Catalog.Search;
 using Diglett.Core.Data;
 using Diglett.Core.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +23,7 @@ namespace Diglett.Web
                 .AddDefaultTokenProviders();
 
             services.AddScoped<TimestampedInterceptor>();
+            services.AddScoped<ICatalogSearchService, CatalogSearchService>();
 
             var app = builder.Build();
 
