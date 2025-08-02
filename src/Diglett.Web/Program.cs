@@ -1,6 +1,7 @@
 using Diglett.Core.Catalog.Search;
 using Diglett.Core.Data;
 using Diglett.Core.Domain.Identity;
+using Diglett.Core.Web;
 using Diglett.Web.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace Diglett.Web
 
             services.AddScoped<TimestampedInterceptor>();
             services.AddScoped<ICatalogSearchService, CatalogSearchService>();
+            services.AddScoped<IWebHelper, WebHelper>();
             services.AddScoped<CatalogHelper>();
 
             var app = builder.Build();
