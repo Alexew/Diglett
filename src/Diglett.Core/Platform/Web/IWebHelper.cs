@@ -2,6 +2,6 @@
 {
     public interface IWebHelper
     {
-        string ModifyQueryString(string url, string queryModification, string? removeParamName = null, string? anchor = null);
+        string ModifyQueryString(string? url, string? queryModification, string? removeParamName = null, string? anchor = null);
     }
 }

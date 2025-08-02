@@ -17,7 +17,7 @@ namespace Diglett.Core.Web
             get => _httpContextAccessor.HttpContext;
         }
 
-        public string ModifyQueryString(string url, string queryModification, string? removeParamName = null, string? anchor = null)
+        public string ModifyQueryString(string? url, string? queryModification, string? removeParamName = null, string? anchor = null)
         {
             var request = HttpContext?.Request;
 
