@@ -1,6 +1,6 @@
 ﻿using Diglett.Core.Collections;
 
-namespace Diglett.Core.Web.Models.Catalog
+namespace Diglett.Web.Models.Catalog
 {
     public interface IListActions
     {

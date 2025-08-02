@@ -1,4 +1,4 @@
-﻿using Diglett.Core.Web.Modelling;
+﻿using Diglett.Web.Modelling;
 
 namespace Diglett.Web.Models.Catalog
 {

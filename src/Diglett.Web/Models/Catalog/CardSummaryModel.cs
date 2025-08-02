@@ -1,7 +1,6 @@
 ﻿using Diglett.Core.Collections;
 using Diglett.Core.Utilities;
-using Diglett.Core.Web.Modelling;
-using Diglett.Core.Web.Models.Catalog;
+using Diglett.Web.Modelling;
 
 namespace Diglett.Web.Models.Catalog
 {

@@ -1,4 +1,4 @@
-﻿namespace Diglett.Core.Web.Modelling
+﻿namespace Diglett.Web.Modelling
 {
     public abstract class ModelBase { }
 
