@@ -14,7 +14,8 @@ namespace Diglett.Web
             var builder = WebApplication.CreateBuilder(args);
             var services = builder.Services;
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
 
             services.AddDbContext<DiglettDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
