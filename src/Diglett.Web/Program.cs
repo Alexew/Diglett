@@ -27,7 +27,7 @@ namespace Diglett.Web
 
             services.AddScoped<TimestampedInterceptor>();
             services.AddScoped<ICatalogSearchService, CatalogSearchService>();
-            services.AddScoped<IWebHelper, WebHelper>();
+            services.AddScoped<IWebHelper, DefaultWebHelper>();
             services.AddScoped<CatalogHelper>();
 
             var app = builder.Build();

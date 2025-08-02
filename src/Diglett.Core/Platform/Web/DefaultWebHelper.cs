@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace Diglett.Core.Web
 {
-    public class WebHelper : IWebHelper
+    public class DefaultWebHelper : IWebHelper
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public WebHelper(IHttpContextAccessor httpContextAccessor)
+        public DefaultWebHelper(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }
