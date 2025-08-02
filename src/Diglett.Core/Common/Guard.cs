@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Diglett.Core.Common
+namespace Diglett
 {
     public class Guard
     {
@@ -53,6 +53,22 @@ namespace Diglett.Core.Common
                 throw new ArgumentOutOfRangeException(argName, string.Format(message, argName, arg));
 
             return arg;
+        }
+
+        public static void PagingArgsValid(int indexArg, int sizeArg,
+            [CallerArgumentExpression(nameof(indexArg))] string? indexArgName = null,
+            [CallerArgumentExpression(nameof(sizeArg))] string? sizeArgName = null)
+        {
+            NotNegative(indexArg, indexArgName, "PageIndex cannot be below 0");
+
+            if (indexArg > 0)
+            {
+                IsPositive(sizeArg, sizeArgName, "PageSize cannot be below 1 if a PageIndex greater 0 was provided.");
+            }
+            else
+            {
+                NotNegative(sizeArg, sizeArgName);
+            }
         }
     }
 }

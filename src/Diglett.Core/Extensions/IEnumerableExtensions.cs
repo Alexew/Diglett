@@ -1,5 +1,4 @@
-﻿using Diglett.Core.Common;
-using Diglett.Core.Domain;
+﻿using Diglett.Core.Domain;
 
 namespace Diglett
 {
