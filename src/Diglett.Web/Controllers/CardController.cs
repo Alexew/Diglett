@@ -1,32 +1,30 @@
-﻿using Diglett.Core.Data;
-using Diglett.Web.Models.Catalog;
+﻿using Diglett.Core.Catalog.Search;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Diglett.Web.Controllers
 {
     public class CardController : Controller
     {
-        private readonly DiglettDbContext _db;
+        private readonly CatalogHelper _helper;
+        private readonly ICatalogSearchService _searchService;
 
-        public CardController(DiglettDbContext db)
+        public CardController(
+            CatalogHelper helper,
+            ICatalogSearchService searchService)
         {
-            _db = db;
+            _helper = helper;
+            _searchService = searchService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var cards = await _db.Cards
-                .AsNoTracking()
-                .Take(100)
-                .Select(x => new CardModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                ImageUrl = $"/img/cards/{x.Set.Serie.Category.ToString().ToLower()}/{x.Set.SerieId}/{x.SetId}/{x.Code}.png"
-            }).ToListAsync();
+            var searchQuery = new CatalogSearchQuery()
+                .Slice(0, 30);
 
-            return View(cards);
+            var result = await _searchService.SearchAsync(searchQuery);
+            var model = await _helper.MapCardSummaryModelAsync(result);
+
+            return View(model);
         }
     }
 }

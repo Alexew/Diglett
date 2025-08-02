@@ -1,16 +1,16 @@
 ﻿@using Diglett.Web.Models.Catalog
 
-@model IEnumerable<CardModel>
+@model CardSummaryModel
 
 @{
     ViewData["Title"] = "Cards";
 }
 
-<div class="d-flex flex-wrap">
-    @foreach (var card in Model)
+<div class="row row-cols-6">
+    @foreach (var card in Model.Items)
     {
-        <div class="p-2">
-            <img src="@card.ImageUrl" alt="@card.Name" width="300" />
+        <div class="col">
+            <img src="@card.ImageUrl" alt="@card.Name" class="img-fluid" />
             <div>
                 @card.Name
             </div>
