@@ -1,0 +1,29 @@
+﻿@using Diglett.Web.Models.Catalog
+
+@model IListActions
+
+@{
+    var pageable = Model.PagedList;
+    var availablePageSizes = new int[] { 30, 60, 120 };
+}
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="cardlist-paginator" data-bs-toggle="dropdown" aria-expanded="false">
+        @pageable.PageSize per page
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="cardlist-paginator">
+        @foreach (var size in availablePageSizes)
+        {
+            <li>
+                <a class="dropdown-item" href="@WebHelper.ModifyQueryString(null, $"?s={size}", "i")">
+                    @size per page
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+<pagination class="flex-grow-1"
+            dt-content-class="justify-content-end"
+            dt-list-items="Model.PagedList"
+            dt-query-param="i" />

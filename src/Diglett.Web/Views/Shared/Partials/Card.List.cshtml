@@ -1,0 +1,19 @@
+﻿@using Diglett.Web.Models.Catalog
+
+@model CardSummaryModel
+
+<div class="row row-cols-6">
+    @foreach (var card in Model.Items)
+    {
+        <div class="col">
+            <img src="@card.ImageUrl" alt="@card.Name" class="img-fluid" />
+            <div>
+                @card.Name
+            </div>
+        </div>
+    }
+</div>
+
+<div dt-if="Model.PagedList.TotalPages > 1" class="d-flex">
+    <partial name="Partials/Card.List.Pager" model="Model" />
+</div>

@@ -1,19 +1,5 @@
-﻿@using Diglett.Web.Models.Catalog
-
-@model CardSummaryModel
-
-@{
+﻿@{
     ViewData["Title"] = "Cards";
 }
 
-<div class="row row-cols-6">
-    @foreach (var card in Model.Items)
-    {
-        <div class="col">
-            <img src="@card.ImageUrl" alt="@card.Name" class="img-fluid" />
-            <div>
-                @card.Name
-            </div>
-        </div>
-    }
-</div>
+<partial name="Partials/Card.List" model="Model" />
