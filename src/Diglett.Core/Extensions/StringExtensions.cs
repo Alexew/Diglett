@@ -1,8 +1,11 @@
-﻿namespace Diglett
+﻿using System.Diagnostics;
+
+namespace Diglett
 {
     public static partial class StringExtensions
     {
         public const string NotAvailable = "n/a";
+        public const string DumpStr = "------------------------------------------------";
 
         public static string ToSafe(this string? value, string? defaultValue = null)
         {
@@ -35,6 +38,12 @@
         public static string OrDefault(this string? value, string defaultValue)
         {
             return string.IsNullOrEmpty(value) ? defaultValue : value;
+        }
+
+        public static void Dump(this string? value, bool appendMarks = false)
+        {
+            Debug.WriteLine(value);
+            Debug.WriteLineIf(appendMarks, DumpStr);
         }
     }
 }

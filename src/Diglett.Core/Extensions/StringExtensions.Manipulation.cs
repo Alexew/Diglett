@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text;
 
 namespace Diglett
 {
@@ -53,6 +54,19 @@ namespace Diglett
                 return string.IsNullOrEmpty(value) ? string.Empty : value;
 
             return value + delimiter + append;
+        }
+
+        public static void Grow(this StringBuilder sb, string? append, string delimiter = " ")
+        {
+            if (!string.IsNullOrWhiteSpace(append))
+            {
+                if (sb.Length > 0 && delimiter != null)
+                {
+                    sb.Append(delimiter);
+                }
+
+                sb.Append(append);
+            }
         }
 
         public static string LeftPad(this string? value, string? format = null, char pad = ' ', int count = 1)
