@@ -1,4 +1,5 @@
 using Diglett.Core.Catalog.Search;
+using Diglett.Core.Catalog.Search.Modelling;
 using Diglett.Core.Data;
 using Diglett.Core.Domain.Identity;
 using Diglett.Core.Web;
@@ -27,6 +28,7 @@ namespace Diglett.Web
 
             services.AddScoped<TimestampedInterceptor>();
             services.AddScoped<ICatalogSearchService, CatalogSearchService>();
+            services.AddScoped<ICatalogSearchQueryFactory, CatalogSearchQueryFactory>();
             services.AddScoped<IWebHelper, DefaultWebHelper>();
             services.AddScoped<CatalogHelper>();
 
