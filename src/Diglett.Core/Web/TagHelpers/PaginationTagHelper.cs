@@ -321,17 +321,16 @@ namespace Diglett.Web.TagHelpers
 
         protected virtual TagBuilder GetItemInnerContent(PagerItem item, TagBuilder inner)
         {
-            // TODO: add icon
-            var iconI = new TagBuilder("span");
+            var iconI = new TagBuilder("i");
             iconI.Attributes.Add("aria-hidden", "true");
 
             switch (item.Type)
             {
                 case PagerItemType.PreviousPage:
-                    iconI.InnerHtml.Append("<");
+                    iconI.AddCssClass("bi bi-chevron-left");
                     break;
                 case PagerItemType.NextPage:
-                    iconI.InnerHtml.Append(">");
+                    iconI.AddCssClass("bi bi-chevron-right");
                     break;
                 default:
                     inner.InnerHtml.AppendHtml(item.Text);
