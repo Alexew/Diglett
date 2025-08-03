@@ -1,7 +1,9 @@
+using Autofac.Extensions.DependencyInjection;
 using Diglett.Core.Catalog.Search;
 using Diglett.Core.Catalog.Search.Modelling;
 using Diglett.Core.Data;
 using Diglett.Core.Domain.Identity;
+using Diglett.Core.Engine;
 using Diglett.Core.Web;
 using Diglett.Web.Controllers;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +16,14 @@ namespace Diglett.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
             var services = builder.Services;
+            var appContext = new DiglettApplicationContext();
+            var engine = EngineFactory.Create(appContext);
+
+            services.AddSingleton(appContext as IApplicationContext);
 
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
@@ -33,6 +42,9 @@ namespace Diglett.Web
             services.AddScoped<CatalogHelper>();
 
             var app = builder.Build();
+
+            var providerContainer = appContext as IServiceProviderContainer;
+            providerContainer.ApplicationServices = app.Services;
 
             using (var scope = app.Services.CreateScope())
             {
