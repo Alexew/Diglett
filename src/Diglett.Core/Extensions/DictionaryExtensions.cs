@@ -5,6 +5,11 @@ namespace Diglett
 {
     public static class DictionaryExtensions
     {
+        public static TValue? Get<TKey, TValue>(this IDictionary<TKey, TValue> instance, TKey key) where TKey : notnull
+        {
+            return Guard.NotNull(instance).TryGetValue(key, out var val) ? val : default;
+        }
+
         public static bool TryRemove<TKey, TValue>(this IDictionary<TKey, TValue> source, TKey key, [MaybeNullWhen(false)] out TValue? value)
             where TKey : notnull
         {
