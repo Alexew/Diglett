@@ -1,0 +1,21 @@
+﻿@using Diglett.Core.Catalog.Cards
+@using Diglett.Web.Models.Catalog
+
+@model IListActions
+
+@{
+    var currentCategory = Model.CurrentCategory;
+    var categories = Enum.GetValues(typeof(Category))
+        .Cast<Category>()
+        .Select(c => new { Name = c.ToString(), Value = c })
+        .ToList();
+}
+
+<div class="btn-group">
+    <a href="@WebHelper.ModifyQueryString(null, null, "c")" class="btn btn-outline-primary @(currentCategory == null ? "active" : string.Empty)">All</a>
+    @foreach (var category in categories)
+    {
+        <a href="@WebHelper.ModifyQueryString(null, $"?c={(int)category.Value}", "i")"
+           class="btn btn-outline-primary @(currentCategory == category.Value ? "active" : string.Empty)">@category.Name</a>
+    }
+</div>
