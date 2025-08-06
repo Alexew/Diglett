@@ -15,6 +15,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+    <ItemGroup>
+        <Content Remove="wwwroot\img\cards\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="wwwroot\img\cards\**" />
+    </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Diglett.Core\Diglett.Core.csproj" />
