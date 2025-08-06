@@ -21,6 +21,8 @@ namespace Diglett.Web.Controllers
             var result = await _searchService.SearchAsync(query);
             var model = await _helper.MapCardSummaryModelAsync(result);
 
+            _helper.MapListActions(model);
+
             return View(model);
         }
     }

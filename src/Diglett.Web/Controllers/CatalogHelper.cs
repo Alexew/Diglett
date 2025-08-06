@@ -1,5 +1,6 @@
 ﻿using Diglett.Core.Catalog.Cards;
 using Diglett.Core.Catalog.Search;
+using Diglett.Core.Catalog.Search.Modelling;
 using Diglett.Core.Collections;
 using Diglett.Core.Data;
 using Diglett.Web.Models.Catalog;
@@ -9,10 +10,20 @@ namespace Diglett.Web.Controllers
     public partial class CatalogHelper
     {
         private readonly DiglettDbContext _db;
+        private readonly ICatalogSearchQueryFactory _catalogSearchQueryFactory;
 
-        public CatalogHelper(DiglettDbContext db)
+        public CatalogHelper(DiglettDbContext db, ICatalogSearchQueryFactory catalogSearchQueryFactory)
         {
             _db = db;
+            _catalogSearchQueryFactory = catalogSearchQueryFactory;
+        }
+
+        public void MapListActions(CardSummaryModel model)
+        {
+            var query = _catalogSearchQueryFactory.Current;            
+
+            model.CurrentCategory = query?.CustomData.Get("CurrentCategory").Convert<Category?>();
+            model.AvailablePageSizes = [30, 60, 120];
         }
 
         public async Task<CardSummaryModel> MapCardSummaryModelAsync(CatalogSearchResult sourceResult)
