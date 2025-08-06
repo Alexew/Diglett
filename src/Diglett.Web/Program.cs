@@ -1,9 +1,11 @@
 using Autofac.Extensions.DependencyInjection;
+using Diglett.Core.Catalog.Cards;
 using Diglett.Core.Catalog.Search;
 using Diglett.Core.Catalog.Search.Modelling;
 using Diglett.Core.Data;
 using Diglett.Core.Domain.Identity;
 using Diglett.Core.Engine;
+using Diglett.Core.Search;
 using Diglett.Core.Web;
 using Diglett.Web.Controllers;
 using Microsoft.AspNetCore.Identity;
@@ -36,9 +38,12 @@ namespace Diglett.Web
                 .AddDefaultTokenProviders();
 
             services.AddScoped<TimestampedInterceptor>();
+            services.AddScoped<IWebHelper, DefaultWebHelper>();
+
+            services.AddSingleton<CatalogSearchQueryVisitor>();
+            services.AddSingleton<LinqSearchQueryVisitor<Card, CatalogSearchQuery, SearchQueryContext<CatalogSearchQuery>>, CatalogSearchQueryVisitor>();
             services.AddScoped<ICatalogSearchService, CatalogSearchService>();
             services.AddScoped<ICatalogSearchQueryFactory, CatalogSearchQueryFactory>();
-            services.AddScoped<IWebHelper, DefaultWebHelper>();
             services.AddScoped<CatalogHelper>();
 
             var app = builder.Build();
