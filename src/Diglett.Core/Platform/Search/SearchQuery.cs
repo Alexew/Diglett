@@ -3,6 +3,11 @@
     public class SearchQuery<TQuery> : ISearchQuery
         where TQuery : class, ISearchQuery
     {
+        private Dictionary<string, object>? _customData;
+
+        // Filtering
+        public ICollection<ISearchFilter> Filters { get; } = [];
+
         // Paging
         public int Skip { get; protected set; }
         public int Take { get; protected set; } = int.MaxValue;
@@ -17,6 +22,12 @@
             }
         }
 
+        // Result
+        public IDictionary<string, object> CustomData =>
+            _customData ??= new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
+        #region Fluent builder
+
         public TQuery Slice(int skip, int take)
         {
             Guard.NotNegative(skip);
@@ -27,5 +38,16 @@
 
             return (this as TQuery)!;
         }
+
+        public TQuery WithFilter(ISearchFilter filter)
+        {
+            Guard.NotNull(filter);
+
+            Filters.Add(filter);
+
+            return (this as TQuery)!;
+        }
+
+        #endregion
     }
 }
