@@ -40,5 +40,19 @@ namespace Diglett.Web.TagHelpers
         }
 
         #endregion
+
+        #region Attributes
+
+        public static void MergeAttribute(this TagHelperOutput output, string name, object? value, bool replace = false)
+        {
+            Guard.NotEmpty(name);
+
+            if (output.Attributes.ContainsName(name) && replace)
+                output.Attributes.SetAttribute(name, value);
+            else
+                output.Attributes.Add(name, value);
+        }
+
+        #endregion
     }
 }

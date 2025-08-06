@@ -12,10 +12,13 @@
 }
 
 <div class="btn-group">
-    <a href="@WebHelper.ModifyQueryString(null, null, "c")" class="btn btn-outline-primary @(currentCategory == null ? "active" : string.Empty)">All</a>
+    <a href="@WebHelper.ModifyQueryString(null, null, "c")"
+       class="btn btn-outline-primary"
+       attr-class='(currentCategory == null, "active")'>All</a>
     @foreach (var category in categories)
     {
         <a href="@WebHelper.ModifyQueryString(null, $"?c={(int)category.Value}", "i")"
-           class="btn btn-outline-primary @(currentCategory == category.Value ? "active" : string.Empty)">@category.Name</a>
+           class="btn btn-outline-primary"
+           attr-class='(currentCategory == category.Value, "active")'>@category.Name</a>
     }
 </div>
