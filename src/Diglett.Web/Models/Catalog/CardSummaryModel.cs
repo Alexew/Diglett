@@ -18,6 +18,7 @@ namespace Diglett.Web.Models.Catalog
         public int Id { get; }
         public List<CardSummaryItemModel> Items { get; set; } = [];
 
+        public string? SearchTerm { get; set; }
         public Category? CurrentCategory { get; set; }
 
         public IPageable PagedList { get; }

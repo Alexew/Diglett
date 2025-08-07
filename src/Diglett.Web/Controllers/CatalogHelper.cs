@@ -22,6 +22,7 @@ namespace Diglett.Web.Controllers
         {
             var query = _catalogSearchQueryFactory.Current;            
 
+            model.SearchTerm = query?.Term;
             model.CurrentCategory = query?.CustomData.Get("CurrentCategory").Convert<Category?>();
             model.AvailablePageSizes = [30, 60, 120];
         }

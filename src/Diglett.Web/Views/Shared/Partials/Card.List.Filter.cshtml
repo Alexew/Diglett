@@ -11,6 +11,14 @@
         .ToList();
 }
 
+<form id="search-form" class="d-flex" role="search">
+    <input type="search" name="q" value="@Model.SearchTerm"
+           class="form-control me-2"
+           placeholder="Search cards..."
+           aria-label="Search cards..." />
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
 <div class="btn-group">
     <a href="@WebHelper.ModifyQueryString(null, null, "c")"
        class="btn btn-outline-primary"
@@ -22,3 +30,20 @@
            attr-class='(currentCategory == category.Value, "active")'>@category.Name</a>
     }
 </div>
+
+<script>
+    document.getElementById('search-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var form = e.target;
+        var currentParams = new URLSearchParams(window.location.search);
+        var formData = new FormData(form);
+
+        for (var [key, value] of formData.entries()) {
+            currentParams.set(key, value);
+        }
+
+        currentParams.delete('i');
+        window.location.search = currentParams.toString();
+    });
+</script>

@@ -5,6 +5,7 @@ namespace Diglett.Web.Models.Catalog
 {
     public interface IListActions
     {
+        string? SearchTerm { get; }
         Category? CurrentCategory { get; }
 
         IPageable PagedList { get; }

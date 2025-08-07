@@ -41,9 +41,6 @@ namespace Diglett
             if (source == null || source.Count == 0)
                 return other;
 
-            if (!other.HasValue)
-                return QueryString.Empty;
-
             return MergeQueryStringInternal(
                 new MutableQueryCollection(new Dictionary<string, StringValues>(source)),
                 other);
