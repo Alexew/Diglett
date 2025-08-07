@@ -13,12 +13,28 @@ namespace Diglett.Core.Catalog.Search
             var names = CatalogSearchQuery.KnownFilters;
             var fieldName = filter.FieldName;
 
-            if (fieldName == names.CategoryId)
+            if (fieldName == names.Name)
+            {
+                return VisitTermFilter((IAttributeSearchFilter)filter, query);
+            }
+            else if (fieldName == names.CategoryId)
             {
                 return VisitCategoryFilter((IAttributeSearchFilter)filter, query);
             }
 
             return query;
+        }
+
+        protected virtual IQueryable<Card> VisitTermFilter(IAttributeSearchFilter filter, IQueryable<Card> query)
+        {
+            var term = filter.Term?.ToString();
+            if (!term.HasValue())
+                return query;
+
+            return
+                from card in query
+                where card.Name.Contains(term!)
+                select card;
         }
 
         protected virtual IQueryable<Card> VisitCategoryFilter(IAttributeSearchFilter filter, IQueryable<Card> query)

@@ -5,6 +5,18 @@
     {
         private Dictionary<string, object>? _customData;
 
+        public SearchQuery(string? term = null)
+        {
+            Term = term;
+
+            if (term.HasValue())
+            {
+                WithFilter(SearchFilter.ByField("name", term!));
+            }
+        }
+
+        public string? Term { get; }
+
         // Filtering
         public ICollection<ISearchFilter> Filters { get; } = [];
 

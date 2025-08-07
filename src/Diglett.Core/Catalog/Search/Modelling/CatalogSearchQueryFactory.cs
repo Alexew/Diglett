@@ -11,7 +11,7 @@ namespace Diglett.Core.Catalog.Search.Modelling
 
         public CatalogSearchQuery? Current { get; private set; }
 
-        protected override string[] Tokens => ["i", "s", "c"];
+        protected override string[] Tokens => ["q", "i", "s", "c"];
 
         public CatalogSearchQuery? CreateFromQuery()
         {
@@ -19,7 +19,9 @@ namespace Diglett.Core.Catalog.Search.Modelling
             if (ctx?.Request == null)
                 return null;
 
-            var query = new CatalogSearchQuery();
+            var term = GetValueFor<string>("q");
+
+            var query = new CatalogSearchQuery(term);
 
             ConvertPaging(query);
             ConvertCategory(query);
@@ -42,6 +44,7 @@ namespace Diglett.Core.Catalog.Search.Modelling
             var selectedSize = GetValueFor<int?>("s");
             if (selectedSize.HasValue)
             {
+                // TODO: Validate size against available options
                 return selectedSize.Value;
             }
 

@@ -12,6 +12,13 @@
         public object Term { get; }
         public IndexTypeCode TypeCode { get; }
 
+        public static SearchFilter ByField(string fieldName, string term)
+        {
+            Guard.NotEmpty(term);
+
+            return ByField(fieldName, term, IndexTypeCode.String);
+        }
+
         public static SearchFilter ByField(string fieldName, int term)
         {
             return ByField(fieldName, term, IndexTypeCode.Int32);
