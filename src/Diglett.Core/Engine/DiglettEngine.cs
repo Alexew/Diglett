@@ -8,5 +8,6 @@
         }
 
         public IApplicationContext Application { get; }
+        public ScopedServiceContainer Scope { get; set; } = default!;
     }
 }

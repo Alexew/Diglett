@@ -26,6 +26,7 @@ namespace Diglett.Web
             var engine = EngineFactory.Create(appContext);
 
             services.AddSingleton(appContext as IApplicationContext);
+            services.AddSingleton<ILifetimeScopeAccessor, DefaultLifetimeScopeAccessor>();
 
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
@@ -50,6 +51,10 @@ namespace Diglett.Web
 
             var providerContainer = appContext as IServiceProviderContainer;
             providerContainer.ApplicationServices = app.Services;
+
+            engine.Scope = new ScopedServiceContainer(
+                app.Services.GetRequiredService<ILifetimeScopeAccessor>(),
+                app.Services.AsLifetimeScope());
 
             using (var scope = app.Services.CreateScope())
             {
