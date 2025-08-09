@@ -25,6 +25,7 @@ namespace Diglett.Web.Controllers
             model.SearchTerm = query?.Term;
             model.CurrentCategory = query?.CustomData.Get("CurrentCategory").Convert<Category?>();
             model.AvailablePageSizes = [30, 60, 120];
+            model.CurrentSortOrder = query?.CustomData.Get("CurrentSortOrder").Convert<CardSortingEnum?>();
         }
 
         public async Task<CardSummaryModel> MapCardSummaryModelAsync(CatalogSearchResult sourceResult)
@@ -56,6 +57,7 @@ namespace Diglett.Web.Controllers
             {
                 Id = card.Id,
                 Name = card.Name,
+                Code = card.Code,
                 ImageUrl = $"/img/cards/{card.Set.Serie.Category.ToString().ToLower()}/{card.Set.SerieId}/{card.SetId}/{card.Code}.png"
             };
 

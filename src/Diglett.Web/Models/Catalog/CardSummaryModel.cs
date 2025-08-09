@@ -1,4 +1,5 @@
 ﻿using Diglett.Core.Catalog.Cards;
+using Diglett.Core.Catalog.Search;
 using Diglett.Core.Collections;
 using Diglett.Core.Utilities;
 using Diglett.Web.Modelling;
@@ -23,6 +24,8 @@ namespace Diglett.Web.Models.Catalog
 
         public IPageable PagedList { get; }
         public IEnumerable<int> AvailablePageSizes { get; set; } = [];
+
+        public CardSortingEnum? CurrentSortOrder { get; set; }
 
         public void Dispose()
         {

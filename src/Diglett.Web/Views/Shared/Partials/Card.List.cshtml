@@ -3,7 +3,7 @@
 @model CardSummaryModel
 
 <div class="d-flex gap-3 mb-3">
-    <partial name="Partials/Card.List.Filter" model="Model" />
+    <partial name="Partials/Card.List.FilterSort" model="Model" />
 </div>
 
 <div class="row row-cols-6">
@@ -12,7 +12,7 @@
         <div class="col">
             <img src="@card.ImageUrl" alt="@card.Name" class="img-fluid" />
             <div>
-                @card.Name
+                @card.Name - @card.Code
             </div>
         </div>
     }

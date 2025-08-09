@@ -1,4 +1,5 @@
 ﻿@using Diglett.Core.Catalog.Cards
+@using Diglett.Core.Catalog.Search
 @using Diglett.Web.Models.Catalog
 
 @model IListActions
@@ -9,6 +10,14 @@
         .Cast<Category>()
         .Select(c => new { Name = c.ToString(), Value = c })
         .ToList();
+    var currentSort = Model.CurrentSortOrder;
+
+    var nameSortQueryMod = currentSort == CardSortingEnum.NameAsc
+        ? CardSortingEnum.NameDesc
+        : CardSortingEnum.NameAsc;
+    var cardCodeSortQueryMod = currentSort == CardSortingEnum.CardCodeAsc
+        ? CardSortingEnum.CardCodeDesc
+        : CardSortingEnum.CardCodeAsc;
 }
 
 <form id="search-form" class="d-flex" role="search">
@@ -29,6 +38,17 @@
            class="btn btn-outline-primary"
            attr-class='(currentCategory == category.Value, "active")'>@category.Name</a>
     }
+</div>
+
+<div class="d-flex gap-2 ms-auto">
+    <a href="@WebHelper.ModifyQueryString(null, $"o={(int)nameSortQueryMod}")" class="btn btn-outline-primary"
+       attr-class='(currentSort == CardSortingEnum.NameAsc || currentSort == CardSortingEnum.NameDesc, "active")'>
+        Name <i class="bi bi-caret-@(currentSort == CardSortingEnum.NameDesc ? "down" : "up")"></i>
+    </a>
+    <a href="@WebHelper.ModifyQueryString(null, $"o={(int)cardCodeSortQueryMod}")" class="btn btn-outline-primary"
+       attr-class='(currentSort == CardSortingEnum.CardCodeAsc || currentSort == CardSortingEnum.CardCodeDesc, "active")'>
+        Number <i class="bi bi-caret-@(currentSort == CardSortingEnum.CardCodeDesc ? "down" : "up")"></i>
+    </a>
 </div>
 
 <script>
