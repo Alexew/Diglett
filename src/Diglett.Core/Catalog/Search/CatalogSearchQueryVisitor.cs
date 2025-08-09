@@ -46,5 +46,34 @@ namespace Diglett.Core.Catalog.Search
                 where card.Set.Serie.Category == category
                 select card;
         }
+
+        protected override IQueryable<Card> VisitSorting(
+            SearchSort sorting,
+            SearchQueryContext<CatalogSearchQuery> context,
+            IQueryable<Card> query)
+        {
+            var names = CatalogSearchQuery.KnownSortings;
+
+            if (sorting.FieldName == names.Name)
+            {
+                query = OrderBy(query, x => x.Name, sorting.Descending);
+            }
+            else if (sorting.FieldName == names.CardCode)
+            {
+                query = OrderBy(query, x => x.Code, sorting.Descending);
+            }
+
+            return ApplyDefaultSorting(context, query);
+        }
+
+        protected override IQueryable<Card> ApplyDefaultSorting(SearchQueryContext<CatalogSearchQuery> context, IQueryable<Card> query)
+        {
+            // TODO: Redo with display order field
+            query = OrderBy(query, x => x.Set.Serie.Id);
+            query = OrderBy(query, x => x.Set.Id);
+            query = OrderBy(query, x => x.Id);
+
+            return query;
+        }
     }
 }

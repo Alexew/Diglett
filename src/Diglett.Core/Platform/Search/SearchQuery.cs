@@ -23,6 +23,10 @@
         // Paging
         public int Skip { get; protected set; }
         public int Take { get; protected set; } = int.MaxValue;
+
+        // Sorting
+        public ICollection<SearchSort> Sorting { get; } = [];
+
         public int PageIndex
         {
             get
@@ -47,6 +51,15 @@
 
             Skip = skip;
             Take = take;
+
+            return (this as TQuery)!;
+        }
+
+        public TQuery SortBy(SearchSort sort)
+        {
+            Guard.NotNull(sort);
+
+            Sorting.Add(sort);
 
             return (this as TQuery)!;
         }

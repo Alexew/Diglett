@@ -9,6 +9,9 @@
         int Skip { get; }
         int Take { get; }
 
+        // Sorting
+        ICollection<SearchSort> Sorting { get; }
+
         // Result
         IDictionary<string, object> CustomData { get; }
     }

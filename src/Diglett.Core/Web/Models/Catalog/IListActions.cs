@@ -1,4 +1,5 @@
 ﻿using Diglett.Core.Catalog.Cards;
+using Diglett.Core.Catalog.Search;
 using Diglett.Core.Collections;
 
 namespace Diglett.Web.Models.Catalog
@@ -10,5 +11,7 @@ namespace Diglett.Web.Models.Catalog
 
         IPageable PagedList { get; }
         IEnumerable<int> AvailablePageSizes { get; }
+
+        CardSortingEnum? CurrentSortOrder { get; }
     }
 }

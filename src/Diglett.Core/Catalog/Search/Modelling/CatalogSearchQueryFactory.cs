@@ -11,7 +11,7 @@ namespace Diglett.Core.Catalog.Search.Modelling
 
         public CatalogSearchQuery? Current { get; private set; }
 
-        protected override string[] Tokens => ["q", "i", "s", "c"];
+        protected override string[] Tokens => ["q", "i", "s", "o", "c"];
 
         public CatalogSearchQuery? CreateFromQuery()
         {
@@ -20,10 +20,10 @@ namespace Diglett.Core.Catalog.Search.Modelling
                 return null;
 
             var term = GetValueFor<string>("q");
-
             var query = new CatalogSearchQuery(term);
 
             ConvertPaging(query);
+            ConvertSorting(query);
             ConvertCategory(query);
 
             Current = query;
@@ -37,6 +37,15 @@ namespace Diglett.Core.Catalog.Search.Modelling
             var size = GetPageSize(query);
 
             query.Slice((index - 1) * size, size);
+        }
+
+        protected virtual void ConvertSorting(CatalogSearchQuery query)
+        {
+            var sort = GetValueFor<CardSortingEnum?>("o")
+                ?? CardSortingEnum.Initial;
+
+            query.CustomData["CurrentSortOrder"] = sort;
+            query.SortBy(sort);
         }
 
         private int GetPageSize(CatalogSearchQuery query)
@@ -55,11 +64,12 @@ namespace Diglett.Core.Catalog.Search.Modelling
 
         protected virtual void ConvertCategory(CatalogSearchQuery query)
         {
-            if (TryGetValueFor("c", out Category category) && Enum.IsDefined(category))
-            {
-                query.CustomData["CurrentCategory"] = category;
-                query.WithCategory(category);
-            }
+            var category = GetValueFor<Category?>("c");
+            if (category == null)
+                return;
+
+            query.CustomData["CurrentCategory"] = category;
+            query.WithCategory(category.Value);
         }
     }
 }
