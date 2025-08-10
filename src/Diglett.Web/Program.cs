@@ -1,10 +1,12 @@
 using Autofac.Extensions.DependencyInjection;
+using Diglett.Core;
 using Diglett.Core.Catalog.Cards;
 using Diglett.Core.Catalog.Search;
 using Diglett.Core.Catalog.Search.Modelling;
 using Diglett.Core.Data;
 using Diglett.Core.Domain.Identity;
 using Diglett.Core.Engine;
+using Diglett.Core.Identity;
 using Diglett.Core.Search;
 using Diglett.Core.Web;
 using Diglett.Web.Controllers;
@@ -33,12 +35,14 @@ namespace Diglett.Web
 
             services.AddDbContext<DiglettDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
+            services.AddScoped<TimestampedInterceptor>();
 
             services.AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<DiglettDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddScoped<IUserService, UserService>();
 
-            services.AddScoped<TimestampedInterceptor>();
+            services.AddScoped<IWorkContext, DefaultWorkContext>();
             services.AddScoped<IWebHelper, DefaultWebHelper>();
 
             services.AddSingleton<CatalogSearchQueryVisitor>();
