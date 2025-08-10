@@ -1,0 +1,19 @@
+﻿@using Diglett.Web.Models.Catalog
+
+@model CardDetailsModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="row">
+    <div class="col-3">
+        <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid" />
+    </div>
+    <div class="col-9">
+        <h1>@Model.Name</h1>
+        <p>@Model.Code</p>
+
+        <partial name="Partials/Card.Variants" model="Model.Variants" />
+    </div>
+</div>

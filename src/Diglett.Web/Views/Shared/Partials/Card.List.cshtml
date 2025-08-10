@@ -12,7 +12,7 @@
         <div class="col">
             <img src="@card.ImageUrl" alt="@card.Name" class="img-fluid" />
             <div>
-                @card.Name - @card.Code
+                <a href="@Url.Action("Details", new { Id = card.Id})">@card.Name - @card.Code</a>
             </div>
         </div>
     }

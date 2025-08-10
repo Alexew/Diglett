@@ -1,0 +1,16 @@
+﻿@using Diglett.Web.Models.Catalog
+
+@model IList<CardDetailsModel.CardVariantModel>
+
+<h4>Variants</h4>
+<ol class="list-group">
+    @foreach (var variant in Model)
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">@variant.Name</div>
+                <small>@variant.Description</small>
+            </div>
+        </li>
+    }
+</ol>
