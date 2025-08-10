@@ -1,4 +1,5 @@
-﻿using Diglett.Core.Domain;
+﻿using Diglett.Core.Catalog.Variants;
+using Diglett.Core.Domain;
 
 namespace Diglett.Core.Catalog.Cards
 {
@@ -11,5 +12,7 @@ namespace Diglett.Core.Catalog.Cards
 
         public int SetId { get; set; }
         public Set Set { get; set; } = default!;
+
+        public ICollection<CardVariant> Variants { get; set; } = [];
     }
 }

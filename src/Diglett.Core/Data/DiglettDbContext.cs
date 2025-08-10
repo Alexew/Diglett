@@ -1,4 +1,5 @@
 ﻿using Diglett.Core.Catalog.Cards;
+using Diglett.Core.Catalog.Variants;
 using Diglett.Core.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace Diglett.Core.Data
         public DbSet<Serie> Series { get; set; }
         public DbSet<Set> Sets { get; set; }
         public DbSet<Card> Cards { get; set; }
+        public DbSet<CardVariant> CardVariants { get; set; }
 
         public DiglettDbContext(
             DbContextOptions<DiglettDbContext> options,
