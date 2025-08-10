@@ -1,4 +1,5 @@
-﻿using Diglett.Core.Catalog.Search.Modelling;
+﻿using Diglett.Core.Catalog.Cards;
+using Diglett.Core.Catalog.Search.Modelling;
 using Diglett.Core.Data;
 
 namespace Diglett.Web.Controllers
@@ -12,6 +13,15 @@ namespace Diglett.Web.Controllers
         {
             _db = db;
             _catalogSearchQueryFactory = catalogSearchQueryFactory;
+        }
+
+        public string GetImageUrl(Card card)
+        {
+            Guard.NotNull(card);
+            Guard.NotNull(card.Set);
+            Guard.NotNull(card.Set.Serie);
+
+            return $"/img/cards/{card.Set.Serie.Category.ToString().ToLower()}/{card.Set.SerieId}/{card.SetId}/{card.Code}.png";
         }
     }
 }

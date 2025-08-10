@@ -47,7 +47,7 @@ namespace Diglett.Web.Controllers
                 Id = card.Id,
                 Name = card.Name,
                 Code = card.Code,
-                ImageUrl = $"/img/cards/{card.Set.Serie.Category.ToString().ToLower()}/{card.Set.SerieId}/{card.SetId}/{card.Code}.png"
+                ImageUrl = GetImageUrl(card)
             };
 
             model.Items.Add(item);
