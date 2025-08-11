@@ -41,6 +41,10 @@ namespace Diglett.Web
                 .AddEntityFrameworkStores<DiglettDbContext>()
                 .AddDefaultTokenProviders();
             services.AddScoped<IUserService, UserService>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Identity/Login";
+            });
 
             services.AddScoped<IWorkContext, DefaultWorkContext>();
             services.AddScoped<IWebHelper, DefaultWebHelper>();
@@ -73,6 +77,7 @@ namespace Diglett.Web
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthorization();
 
             app.MapStaticAssets();
             app.UseStaticFiles();
