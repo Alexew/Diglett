@@ -1,5 +1,6 @@
 ﻿using Diglett.Core.Catalog.Cards;
 using Diglett.Web.Models.Catalog;
+using Microsoft.EntityFrameworkCore;
 
 namespace Diglett.Web.Controllers
 {
@@ -19,12 +20,23 @@ namespace Diglett.Web.Controllers
 
             foreach (var variant in card.Variants)
             {
-                model.Variants.Add(new CardDetailsModel.CardVariantModel
+                var vm = new CardDetailsModel.CardVariantModel
                 {
                     Id = variant.Id,
                     Name = variant.Name,
                     Description = variant.Description
-                });
+                };
+
+                if (_workContext.CurrentUser != null)
+                {
+                    var quantity = await _db.CollectionEntries
+                        .AsNoTracking()
+                        .CountAsync(x => x.CardVariantId == variant.Id && x.UserId == _workContext.CurrentUser.Id);
+
+                    vm.Quantity = quantity;
+                }
+
+                model.Variants.Add(vm);
             }
 
             return model;

@@ -1,4 +1,5 @@
-﻿using Diglett.Core.Catalog.Cards;
+﻿using Diglett.Core;
+using Diglett.Core.Catalog.Cards;
 using Diglett.Core.Catalog.Search.Modelling;
 using Diglett.Core.Data;
 
@@ -7,11 +8,16 @@ namespace Diglett.Web.Controllers
     public partial class CatalogHelper
     {
         private readonly DiglettDbContext _db;
+        private readonly IWorkContext _workContext;
         private readonly ICatalogSearchQueryFactory _catalogSearchQueryFactory;
 
-        public CatalogHelper(DiglettDbContext db, ICatalogSearchQueryFactory catalogSearchQueryFactory)
+        public CatalogHelper(
+            DiglettDbContext db,
+            IWorkContext workContext,
+            ICatalogSearchQueryFactory catalogSearchQueryFactory)
         {
             _db = db;
+            _workContext = workContext;
             _catalogSearchQueryFactory = catalogSearchQueryFactory;
         }
 
