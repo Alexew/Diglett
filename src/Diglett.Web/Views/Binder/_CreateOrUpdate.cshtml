@@ -1,0 +1,16 @@
+﻿@using Diglett.Web.Models.Collection
+
+@model BinderModel
+
+<input asp-for="Id" type="hidden" />
+
+<div class="mb-3">
+    <label asp-for="Name" class="form-label"></label>
+    <input asp-for="Name" class="form-control" aria-required="true" required />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="PageCount" class="form-label"></label>
+    <input asp-for="PageCount" class="form-control" aria-required="true" required />
+    <span asp-validation-for="PageCount" class="text-danger"></span>
+</div>
