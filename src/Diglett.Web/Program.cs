@@ -33,6 +33,7 @@ namespace Diglett.Web
 
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
+            services.AddSingleton<IPartialInvoker, PartialInvoker>();
 
             services.AddDbContext<DiglettDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
