@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Diglett.Web.Controllers
 {
-    public class CardController : Controller
+    public class CardController : DiglettController
     {
         private readonly DiglettDbContext _db;
         private readonly CatalogHelper _helper;
