@@ -1,6 +1,6 @@
 ﻿using Diglett.Core;
-using Diglett.Core.Catalog.Cards;
 using Diglett.Core.Catalog.Search.Modelling;
+using Diglett.Core.Content.Media;
 using Diglett.Core.Data;
 
 namespace Diglett.Web.Controllers
@@ -9,25 +9,19 @@ namespace Diglett.Web.Controllers
     {
         private readonly DiglettDbContext _db;
         private readonly IWorkContext _workContext;
+        private readonly IMediaService _mediaService;
         private readonly ICatalogSearchQueryFactory _catalogSearchQueryFactory;
 
         public CatalogHelper(
             DiglettDbContext db,
             IWorkContext workContext,
+            IMediaService mediaService,
             ICatalogSearchQueryFactory catalogSearchQueryFactory)
         {
             _db = db;
             _workContext = workContext;
+            _mediaService = mediaService;
             _catalogSearchQueryFactory = catalogSearchQueryFactory;
-        }
-
-        public string GetImageUrl(Card card)
-        {
-            Guard.NotNull(card);
-            Guard.NotNull(card.Set);
-            Guard.NotNull(card.Set.Serie);
-
-            return $"/img/cards/{card.Set.Serie.Category.ToString().ToLower()}/{card.Set.SerieId}/{card.SetId}/{card.Code}.png";
         }
     }
 }

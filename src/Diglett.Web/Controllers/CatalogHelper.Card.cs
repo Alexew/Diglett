@@ -15,7 +15,7 @@ namespace Diglett.Web.Controllers
                 Id = card.Id,
                 Name = card.Name,
                 Code = card.Code,
-                ImageUrl = GetImageUrl(card)
+                ImageUrl = _mediaService.GetImageUrl(card)
             };
 
             foreach (var variant in card.Variants)

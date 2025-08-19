@@ -3,6 +3,7 @@ using Diglett.Core;
 using Diglett.Core.Catalog.Cards;
 using Diglett.Core.Catalog.Search;
 using Diglett.Core.Catalog.Search.Modelling;
+using Diglett.Core.Content.Media;
 using Diglett.Core.Data;
 using Diglett.Core.Domain.Identity;
 using Diglett.Core.Engine;
@@ -48,6 +49,8 @@ namespace Diglett.Web
 
             services.AddScoped<IWorkContext, DefaultWorkContext>();
             services.AddScoped<IWebHelper, DefaultWebHelper>();
+
+            services.AddScoped<IMediaService, MediaService>();
 
             services.AddSingleton<CatalogSearchQueryVisitor>();
             services.AddSingleton<LinqSearchQueryVisitor<Card, CatalogSearchQuery, SearchQueryContext<CatalogSearchQuery>>, CatalogSearchQueryVisitor>();

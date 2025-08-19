@@ -38,16 +38,12 @@ namespace Diglett.Web.Controllers
 
         private async Task MapCardSummaryItem(Card card, CardSummaryModel model)
         {
-            // TODO: Optimization
-            await _db.Entry(card).Reference(c => c.Set).LoadAsync();
-            await _db.Entry(card.Set).Reference(s => s.Serie).LoadAsync();
-
             var item = new CardSummaryItemModel
             {
                 Id = card.Id,
                 Name = card.Name,
                 Code = card.Code,
-                ImageUrl = GetImageUrl(card)
+                ImageUrl = _mediaService.GetImageUrl(card)
             };
 
             model.Items.Add(item);
