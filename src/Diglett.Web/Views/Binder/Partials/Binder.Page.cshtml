@@ -1,0 +1,35 @@
+﻿@using Diglett.Web.Models.Collection
+
+@model BinderPageModel
+
+@{
+    var index = (Model.Page - 1) * Model.PocketSize + 1;
+    var max = Model.Page * Model.PocketSize + 1;
+}
+
+<div class="row g-2">
+    @for (int i = index; i < max; i++)
+    {
+        <div class="col-4">
+            <div class="ratio ratio-card">
+                @if (Model.Items.TryGetValue(i, out var itemModel))
+                {
+                    <div>
+                        <img src="@itemModel.ImageUrl" alt="@itemModel.Name" class="img-card rounded">
+                        <button type="button" class="btn btn-danger delete-binder-card" title="Remove card" data-slot="@i">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="border rounded bg-light">
+                        <a href="#" data-slot="@i" class="link-primary pick-binder-card">
+                            <i class="bi bi-plus-lg display-4"></i>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

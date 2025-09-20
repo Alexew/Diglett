@@ -1,0 +1,50 @@
+.ratio-card {
+    --bs-aspect-ratio: calc(88 / 63 * 100%);
+    position: relative;
+}
+
+.ratio-card:hover .delete-binder-card {
+    display: block;
+}
+
+.binder-wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.delete-binder-card {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+.pick-binder-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pick-binder-card.selected {
+    border: 2px solid #0d6efd;
+    background-color: #e7f1ff;
+}
+
+.img-card {
+    width: 100%;
+    height: 100%;
+}
+
+.binder-pager {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.binder-pager > a {
+    min-width: 90px;
+}

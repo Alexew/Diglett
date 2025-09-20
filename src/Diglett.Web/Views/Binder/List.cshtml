@@ -39,6 +39,7 @@
                     <h5 class="card-title">
                         @binder.Name
                     </h5>
+                    <a href="@Url.Action("Edit", new { id = binder.Id })" class="btn btn-primary">Edit</a>
                     <a href="#" class="btn btn-secondary open-modal" data-url="@Url.Action("EditBinderModal", new { id = binder.Id})">Settings</a>
                     <a href="#" class="btn btn-danger open-modal" data-url="@Url.Action("DeleteBinderModal", new { id = binder.Id })">Delete</a>
                 </div>

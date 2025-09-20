@@ -1,5 +1,6 @@
 ﻿using Diglett.Core;
 using Diglett.Core.Catalog.Collection;
+using Diglett.Core.Content.Media;
 using Diglett.Core.Data;
 using Diglett.Web.Models.Collection;
 using Microsoft.AspNetCore.Authorization;
@@ -9,15 +10,20 @@ using Microsoft.EntityFrameworkCore;
 namespace Diglett.Web.Controllers
 {
     [Authorize]
-    public class BinderController : Controller
+    public class BinderController : DiglettController
     {
         private readonly DiglettDbContext _db;
         private readonly IWorkContext _workContext;
+        private readonly IMediaService _mediaService;
 
-        public BinderController(DiglettDbContext db, IWorkContext workContext)
+        public BinderController(
+            DiglettDbContext db,
+            IWorkContext workContext,
+            IMediaService mediaService)
         {
             _db = db;
             _workContext = workContext;
+            _mediaService = mediaService;
         }
 
         public IActionResult Index()
@@ -27,16 +33,14 @@ namespace Diglett.Web.Controllers
 
         public async Task<IActionResult> List()
         {
-            var user = _workContext.CurrentUser!;
             var binders = await _db.Binders
                 .AsNoTracking()
-                .Where(x => x.UserId == user.Id)
-                .Select(x => PrepareBinderModel(x))
+                .ApplyUserFilter(_workContext.CurrentUser!.Id)
                 .ToListAsync();
 
             var model = new BinderListModel
             {
-                Binders = binders
+                Binders = binders.Select(PrepareBinderModel).ToList()
             };
 
             return View(model);
@@ -53,13 +57,7 @@ namespace Diglett.Web.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction(nameof(List));
 
-            var user = _workContext.CurrentUser!;
-            var binder = new Binder
-            {
-                Name = model.Name,
-                UserId = user.Id,
-                PageCount = model.PageCount
-            };
+            var binder = MapToBinderEntity(model);
 
             _db.Binders.Add(binder);
             await _db.SaveChangesAsync();
@@ -71,7 +69,8 @@ namespace Diglett.Web.Controllers
         {
             var binder = await _db.Binders
                 .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.Id == id && x.UserId == _workContext.CurrentUser!.Id);
+                .ApplyUserFilter(_workContext.CurrentUser!.Id)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
             if (binder == null)
                 return NotFound();
@@ -88,13 +87,13 @@ namespace Diglett.Web.Controllers
                 return RedirectToAction(nameof(List));
 
             var binder = await _db.Binders
-                .SingleOrDefaultAsync(x => x.Id == model.Id && x.UserId == _workContext.CurrentUser!.Id);
+                .ApplyUserFilter(_workContext.CurrentUser!.Id)
+                .SingleOrDefaultAsync(x => x.Id == model.Id);
 
             if (binder == null)
                 return NotFound();
 
-            binder.Name = model.Name;
-            binder.PageCount = model.PageCount;
+            MapToBinderEntity(model, binder);
 
             _db.Binders.Update(binder);
             await _db.SaveChangesAsync();
@@ -102,20 +101,35 @@ namespace Diglett.Web.Controllers
             return RedirectToAction(nameof(List));
         }
 
-        public async Task<IActionResult> DeleteBinderModal(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var binder = await _db.Binders
                 .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.Id == id && x.UserId == _workContext.CurrentUser!.Id);
+                .ApplyUserFilter(_workContext.CurrentUser!.Id)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
             if (binder == null)
                 return NotFound();
 
-            var model = new BinderModel
-            {
-                Id = binder.Id,
-                Name = binder.Name
-            };
+            var model = PrepareBinderModel(binder);
+            var page = await PrepareBinderPageModel(binder);
+
+            model.Page = page;
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> DeleteBinderModal(int id)
+        {
+            var binder = await _db.Binders
+                .AsNoTracking()
+                .ApplyUserFilter(_workContext.CurrentUser!.Id)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (binder == null)
+                return NotFound();
+
+            var model = PrepareBinderModel(binder);
 
             return PartialView(model);
         }
@@ -124,8 +138,8 @@ namespace Diglett.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var binder = await _db.Binders
-                .Include(x => x.Items)
-                .SingleOrDefaultAsync(x => x.Id == id && x.UserId == _workContext.CurrentUser!.Id);
+                .ApplyUserFilter(_workContext.CurrentUser!.Id)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
             if (binder == null)
                 return NotFound();
@@ -136,7 +150,88 @@ namespace Diglett.Web.Controllers
             return RedirectToAction(nameof(List));
         }
 
-        private static BinderModel PrepareBinderModel(Binder? binder = null)
+        public async Task<IActionResult> LoadPage(int id, int page)
+        {
+            var binder = await _db.Binders
+                .AsNoTracking()
+                .ApplyUserFilter(_workContext.CurrentUser!.Id)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (binder == null)
+                return NotFound();
+
+            var model = await PrepareBinderPageModel(binder, page);
+
+            return Json(new
+            {
+                html = await InvokePartialViewAsync("Partials/Binder.Page", model),
+                page
+            });
+        }
+
+        public async Task<IActionResult> AddCard(int binderId, int cardVariantId, int slot)
+        {
+            var binder = await _db.Binders
+                .ApplyUserFilter(_workContext.CurrentUser!.Id)
+                .SingleOrDefaultAsync(x => x.Id == binderId);
+
+            if (binder == null)
+                return NotFound();
+
+            if (slot < 1 || slot > binder.PageCount * binder.PocketSize)
+                return BadRequest();
+
+            var binderItem = await _db.BinderItems
+                .ApplyBinderFilter(binder.Id)
+                .ApplySlotFilter(slot)
+                .SingleOrDefaultAsync();
+            var isNew = binderItem == null;
+
+            binderItem ??= new BinderItem
+            {
+                BinderId = binder.Id,
+                Slot = slot
+            };
+
+            binderItem.CardVariantId = cardVariantId;
+
+            if (isNew)
+                _db.BinderItems.Add(binderItem);
+            else
+                _db.BinderItems.Update(binderItem);
+
+            await _db.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        public async Task<IActionResult> RemoveCard(int binderId, int slot)
+        {
+            var binder = await _db.Binders
+                .ApplyUserFilter(_workContext.CurrentUser!.Id)
+                .SingleOrDefaultAsync(x => x.Id == binderId);
+
+            if (binder == null)
+                return NotFound();
+
+            if (slot < 1 || slot > binder.PageCount * binder.PocketSize)
+                return BadRequest();
+
+            var binderItem = await _db.BinderItems
+                .ApplyBinderFilter(binder.Id)
+                .ApplySlotFilter(slot)
+                .SingleOrDefaultAsync();
+
+            if (binderItem == null)
+                return NotFound();
+
+            _db.BinderItems.Remove(binderItem);
+            await _db.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        private BinderModel PrepareBinderModel(Binder? binder = null)
         {
             var model = new BinderModel();
 
@@ -148,6 +243,60 @@ namespace Diglett.Web.Controllers
             }
 
             return model;
+        }
+
+        private async Task<BinderPageModel> PrepareBinderPageModel(Binder binder, int page = 1)
+        {
+            Guard.NotNull(binder);
+
+            var result = new BinderPageModel
+            {
+                Page = page,
+                PocketSize = binder.PocketSize
+            };
+
+            var items = await _db.BinderItems
+                .AsNoTracking()
+                .IncludeCards()
+                .ApplyBinderFilter(binder.Id)
+                .ApplyPageFilter(page, binder.PocketSize)
+                .OrderBy(x => x.Slot)
+                .ToListAsync();
+
+            foreach (var item in items)
+            {
+                var itemModel = new BinderItemModel
+                {
+                    Id = item.Id,
+                    Slot = item.Slot
+                };
+
+                if (item.CardVariant?.Card != null)
+                {
+                    itemModel.CardVariantId = item.CardVariant.Id;
+                    itemModel.Name = item.CardVariant.Card.Name;
+                    itemModel.ImageUrl = _mediaService.GetImageUrl(item.CardVariant.Card);
+                }
+
+                result.Items[itemModel.Slot] = itemModel;
+            }
+
+            return result;
+        }
+
+        private Binder MapToBinderEntity(BinderModel model, Binder? entity = null)
+        {
+            Guard.NotNull(model);
+
+            entity ??= new Binder
+            {
+                UserId = _workContext.CurrentUser!.Id
+            };
+
+            entity.Name = model.Name;
+            entity.PageCount = model.PageCount;
+
+            return entity;
         }
     }
 }

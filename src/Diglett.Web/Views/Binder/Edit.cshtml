@@ -1,0 +1,38 @@
+﻿@using Diglett.Web.Models.Collection
+
+@model BinderModel
+
+@{
+    ViewData["Title"] = "Edit binder - " + Model.Name;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="fs-4">
+        <i class="bi bi-journal-bookmark"></i>
+        <span>@ViewData["Title"]</span>
+    </div>
+</div>
+
+<div class="binder-wrapper" data-binder-id="@Model.Id">
+    <div class="binder-page">
+        <partial name="Partials/Binder.Page" model="Model.Page" />
+    </div>
+
+    <div class="binder-pager">
+        <a href="#" class="btn btn-secondary pager-prev" attr-class='(Model.Page.Page == 1, "disabled")'>Previous</a>
+        <span class="binder-page-number">Page 1</span>
+        <a href="#" class="btn btn-secondary pager-next" attr-class='(Model.Page.Page == Model.PageCount, "disabled")'>Next</a>
+    </div>
+</div>
+
+@section Styles {
+    <link href="~/css/binder.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/binder.js"></script>
+    <script>
+        const binderWrapper = document.querySelector('.binder-wrapper');
+        const binder = new Binder(binderWrapper, { pageCount: '@Model.PageCount' });
+    </script>
+}

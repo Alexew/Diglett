@@ -12,5 +12,11 @@ namespace Diglett.Web.Models.Collection
         [Required]
         [Range(1, 50, ErrorMessage = "The {0} must be between {1} and {2}.")]
         public int PageCount { get; set; } = 1;
+
+        [Required]
+        [Range(4, 16, ErrorMessage = "The {0} must be between {1} and {2}.")]
+        public int PocketSize { get; set; } = 9;
+
+        public BinderPageModel Page { get; set; } = new();
     }
 }
