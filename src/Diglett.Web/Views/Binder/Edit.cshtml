@@ -27,12 +27,20 @@
 
 @section Styles {
     <link href="~/css/binder.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/picker.css" rel="stylesheet" asp-append-version="true" />
 }
 
 @section Scripts {
     <script src="~/js/binder.js"></script>
+    <script src="~/js/picker.js"></script>
     <script>
         const binderWrapper = document.querySelector('.binder-wrapper');
         const binder = new Binder(binderWrapper, { pageCount: '@Model.PageCount' });
+
+        const picker = new Picker({
+            onSelected: id => {
+                binder.addCard(id);
+            }
+        });
     </script>
 }

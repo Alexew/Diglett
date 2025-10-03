@@ -1,6 +1,7 @@
 ﻿using Diglett.Core;
 using Diglett.Core.Catalog.Collection;
 using Diglett.Core.Catalog.Search;
+using Diglett.Core.Content.Media;
 using Diglett.Core.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,22 +9,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Diglett.Web.Controllers
 {
-    public class CardController : DiglettController
+    public partial class CardController : DiglettController
     {
         private readonly DiglettDbContext _db;
         private readonly CatalogHelper _helper;
         private readonly ICatalogSearchService _searchService;
+        private readonly IMediaService _mediaService;
         private readonly IWorkContext _workContext;
 
         public CardController(
             DiglettDbContext db,
             CatalogHelper helper,
             ICatalogSearchService searchService,
+            IMediaService mediaService,
             IWorkContext workContext)
         {
             _db = db;
             _helper = helper;
             _searchService = searchService;
+            _mediaService = mediaService;
             _workContext = workContext;
         }
 

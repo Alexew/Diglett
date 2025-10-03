@@ -1,0 +1,48 @@
+html, body, .page {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+}
+
+    body > .container {
+        height: 100%;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        display: flex;
+    }
+
+main {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.page {
+    overflow-y: auto;
+    display: flex;
+}
+
+.sidebar {
+    flex-basis: 500px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.25rem;
+}
+
+    .sidebar .picker-list {
+        height: 100%;
+        overflow-y: auto;
+    }
+
+footer {
+    position: static !important;
+}
+
+.picker-list {
+    margin-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}

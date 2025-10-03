@@ -1,0 +1,32 @@
+﻿@using Diglett.Web.Models.Catalog
+
+@model CardPickerModel
+
+@{
+    var items = Model.SearchResult ?? Enumerable.Empty<CardPickerModel.SearchResultModel>();
+}
+
+@foreach (var item in items)
+{
+    <div class="col picker-item" data-id="@item.Id">
+        <img src="@item.ImageUrl" alt="@item.Name" class="img-fluid" />
+        <div>
+            <span>@item.Name - @item.Code</span>
+        </div>
+    </div>
+}
+
+<div class="col-12 text-center">
+    @if (Model.SearchResult == null || Model.SearchResult.Count == 0)
+    {
+        <span class="text-muted">No more cards found</span>
+    }
+    else if (Model.SearchResult.Count == Model.PageSize)
+    {
+        <span class="load-more">&nbsp;</span>
+    }
+    else if (Model.PageIndex > 0)
+    {
+        <span class="text-muted">No more cards found</span>
+    }
+</div>

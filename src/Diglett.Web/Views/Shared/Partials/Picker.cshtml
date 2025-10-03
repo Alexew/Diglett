@@ -1,0 +1,37 @@
+﻿@using Diglett.Core.Catalog.Cards
+@using Diglett.Web.Models.Catalog
+
+@model CardPickerModel
+
+@{
+    var categories = Enum.GetValues(typeof(Category)).Cast<Category>()
+    .Select(c => new { Name = c.ToString(), Value = c })
+    .ToList();
+}
+
+<div id="card-picker" class="sidebar container border-start">
+    <div>
+        <form action="@Url.Action("Picker", "Card")">
+            <input type="hidden" asp-for="PageIndex" />
+
+            <select class="form-select" name="Category" title="Category">
+                <option value="">All</option>
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Value">@category.Name</option>
+                }
+            </select>
+
+            <div class="input-group mt-2">
+                <input type="search" name="SearchTerm"
+                       class="form-control me-2"
+                       placeholder="Search cards..."
+                       aria-label="Search cards..." />
+                <button class="btn btn-outline-success" type="button" name="SearchCards">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="row row-cols-2 gy-2 picker-list">
+        @* AJAX *@
+    </div>
+</div>
