@@ -20,12 +20,14 @@
         : CardSortingEnum.CardCodeAsc;
 }
 
-<form id="search-form" class="d-flex" role="search">
-    <input type="search" name="q" value="@Model.SearchTerm"
-           class="form-control me-2"
-           placeholder="Search cards..."
-           aria-label="Search cards..." />
-    <button class="btn btn-outline-success" type="submit">Search</button>
+<form id="search-form" role="search">
+    <div class="input-group">
+        <input type="search" name="q" value="@Model.SearchTerm"
+               class="form-control me-2"
+               placeholder="Search cards..."
+               aria-label="Search cards..." />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </div>
 </form>
 
 <div class="btn-group">

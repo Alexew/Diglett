@@ -1,0 +1,26 @@
+.page-title {
+    margin-bottom: 1.5rem;
+}
+
+.section-header {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+    .section-header .title {
+        display: inline-flex;
+        align-items: center;
+        font-size: 1.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        gap: 0.75rem;
+        flex-basis: 0;
+        flex-grow: 1;
+    }
+
+    .section-header .options {
+        padding-inline: 10px 0;
+    }
