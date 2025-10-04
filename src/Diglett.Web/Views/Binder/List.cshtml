@@ -8,12 +8,12 @@
     var hasBinders = Model.Binders != null && Model.Binders.Any();
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div class="fs-4">
+<div class="section-header">
+    <div class="title">
         <i class="bi bi-journal-bookmark"></i>
         <span>@ViewData["Title"]</span>
     </div>
-    <div>
+    <div class="options">
         <a href="#" class="btn btn-primary open-modal" data-url="@Url.Action("CreateBinderModal")">
             <i class="bi bi-plus-circle"></i>
             <span>Create</span>
